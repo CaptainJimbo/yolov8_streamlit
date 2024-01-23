@@ -4,15 +4,16 @@ from PIL import Image, ImageOps
 import io
 import os
 import gdown
-import cv2  # for video processing
-import tempfile  # for handling uploaded files
+#import cv2  # for video processing
+#import tempfile  # for handling uploaded files
 from collections import defaultdict
 import numpy as np
 
 # Define the model loading function outside main
 def download_and_load(url):
     trained_model = 'yolov8x_cats.pt'
-    gdown.download(url, trained_model, quiet=False)
+    if not os.path.exists(trained_model):
+        gdown.download(url, trained_model, quiet=False)
     model = ultralytics.YOLO(trained_model)
     return model
 
@@ -34,26 +35,26 @@ def main():
 
 ##############################################################################################################
 
-    model_options = {"Cat Detector": "'yolov8x_cats.pt'", "YOLO v8 X-Large": "yolov8x.pt","No Model picked":None}
+    model_options = {"Cat Detector": "yolov8x_cats.pt", "YOLO v8 X-Large": "yolov8x.pt", "No Model picked": None}
     st.sidebar.header("Model Selection")
 
 ##############################################################################################################
     
     if 'selected_model' not in st.session_state:
-        st.session_state.selected_model = list(model_options.keys())[2]  # default to first model
+        st.session_state.selected_model =  list(model_options)[2]
 
     if 'model' not in st.session_state:
         st.session_state.model = None
 
 ##############################################################################################################
-
+    
     selected_model = st.sidebar.selectbox("Select a model", list(model_options.keys()), index=list(model_options.keys()).index(st.session_state.selected_model))
     st.title(selected_model)
 
 ##############################################################################################################
 
     if selected_model != "No Model picked":
-        st.session_state.selected_model = selected_model  # Update the selected model in the session state
+        st.session_state.selected_model = selected_model  
         
         if selected_model == "Cat Detector":
             with st.spinner(f'Loading {selected_model} model...'):
@@ -64,7 +65,7 @@ def main():
                 st.session_state.model = ultralytics.YOLO(model_options[selected_model])  
 
 
-        uploaded_file = st.file_uploader("Choose an image or video...", type=["jpg", "jpeg", "png"])
+        uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
         if uploaded_file is not None:
             # Check the file format
             #file_type = uploaded_file.type.split('/')[0]
