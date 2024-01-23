@@ -4,7 +4,7 @@ from PIL import Image, ImageOps
 import io
 import os
 import gdown
-#import cv2  # for video processing
+import cv2  # for video processing
 #import tempfile  # for handling uploaded files
 from collections import defaultdict
 import numpy as np
