@@ -4,10 +4,10 @@ from PIL import Image, ImageOps
 import io
 import os
 import gdown
-import cv2  # for video processing
+#import cv2  # for video processing
 #import tempfile  # for handling uploaded files
-from collections import defaultdict
-import numpy as np
+#from collections import defaultdict
+#import numpy as np
 
 # Define the model loading function outside main
 def download_and_load(url):
