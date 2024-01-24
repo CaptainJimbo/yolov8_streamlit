@@ -45,7 +45,7 @@ def main():
 
         # Check credentials
         if st.sidebar.button('Login'):
-            if username_input == st.secrets['user'] and password_input == st.secrets['password']:
+            if username_input == st.secrets['database']['user'] and password_input == st.secrets['database']['password']:
                 st.session_state.logged_in = True
                 st.experimental_rerun()
             else:
