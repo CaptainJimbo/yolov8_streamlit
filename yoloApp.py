@@ -9,9 +9,6 @@ import gdown
 #import numpy as np
 import ultralytics
 
-
-st.title('Test')
-
 # Define the model loading function outside main
 def download_and_load(url):
     trained_model = 'yolov8x_cats.pt'
