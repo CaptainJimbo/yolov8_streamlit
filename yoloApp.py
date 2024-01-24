@@ -7,7 +7,7 @@ import gdown
 #import tempfile  # for handling uploaded files
 #from collections import defaultdict
 #import numpy as np
-#import ultralytics
+import ultralytics
 
 
 st.title('Test')
