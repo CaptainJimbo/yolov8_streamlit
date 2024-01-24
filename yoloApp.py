@@ -32,6 +32,8 @@ def main():
                        page_icon="🤖",
                        layout="wide")
 
+    print(st.secrets.keys())
+
     # Initialize session state for login status
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
