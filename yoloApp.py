@@ -32,8 +32,6 @@ def main():
                        page_icon="🤖",
                        layout="wide")
 
-    print(st.secrets.keys())
-
     # Initialize session state for login status
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
@@ -46,7 +44,7 @@ def main():
 
         # Check credentials
         if st.sidebar.button('Login'):
-            if username_input == st.secrets['default']['user'] and password_input == st.secrets['default']['password']:
+            if username_input == st.secrets['database']['user'] and password_input == st.secrets['database']['password']:
                 st.session_state.logged_in = True
                 st.experimental_rerun()
             else:
