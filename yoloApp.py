@@ -27,59 +27,80 @@ def process_image(image, model):
 
 
 def main():
-    # Setting page layout
+
+
+
+def main():
+    
     st.set_page_config(page_title="Interactive Interface for YOLOv8",
                        page_icon="🤖",
                        layout="wide")
-    
 
-##############################################################################################################
+    # Initialize session state for login status
+    if 'logged_in' not in st.session_state:
+        st.session_state.logged_in = False
 
-    model_options = {"Cat Detector": "yolov8x_cats.pt", "YOLO v8 X-Large": "yolov8x.pt", "No Model picked": None}
-    st.sidebar.header("Model Selection")
+    # User Login
+    if not st.session_state.logged_in:
+        st.sidebar.title("Login")
+        username_input = st.sidebar.text_input("Username")
+        password_input = st.sidebar.text_input("Password", type="password")
 
-##############################################################################################################
-    
-    if 'selected_model' not in st.session_state:
-        st.session_state.selected_model =  list(model_options)[2]
+        # Check credentials
+        if st.sidebar.button('Login'):
+            if username_input == st.secrets['user'] and password_input == st.secrets['password']:
+                st.session_state.logged_in = True
+                st.experimental_rerun()
+            else:
+                st.sidebar.error("Incorrect username or password")
+    else:
+    ##############################################################################################################
 
-    if 'model' not in st.session_state:
-        st.session_state.model = None
+        model_options = {"Cat Detector": "yolov8x_cats.pt", "YOLO v8 X-Large": "yolov8x.pt", "No Model picked": None}
+        st.sidebar.header("Model Selection")
 
-##############################################################################################################
-    
-    selected_model = st.sidebar.selectbox("Select a model", list(model_options.keys()), index=list(model_options.keys()).index(st.session_state.selected_model))
-    st.title(selected_model)
-
-##############################################################################################################
-
-    if selected_model != "No Model picked":
-        st.session_state.selected_model = selected_model  
+    ##############################################################################################################
         
-        if selected_model == "Cat Detector":
-            with st.spinner(f'Loading {selected_model} model...'):
-                url = 'https://drive.google.com/uc?id=116XNjsy9wMEDt76bxJ4q-G5DB5MIal1R'
-                st.session_state.model = download_and_load(url)  
-        elif selected_model == "YOLO v8 X-Large":
-            with st.spinner(f'Loading {selected_model}...'):
-                st.session_state.model = ultralytics.YOLO(model_options[selected_model])  
+        if 'selected_model' not in st.session_state:
+            st.session_state.selected_model =  list(model_options)[2]
 
+        if 'model' not in st.session_state:
+            st.session_state.model = None
 
-        uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
-        if uploaded_file is not None:
-            # Check the file format
-            #file_type = uploaded_file.type.split('/')[0]
-
-            #if file_type == 'image':
-            bytes_data = uploaded_file.getvalue()
-            image = Image.open(io.BytesIO(bytes_data))
-            processed_image = process_image(image, st.session_state['model'])
-            st.image(processed_image, caption='Detections', use_column_width=True)
+    ##############################################################################################################
         
-            #elif file_type == 'video':
-            #    # Process video
-            #    process_and_track_video(uploaded_file, st.session_state['model'])
-            #    st.video(uploaded_file)  # Display the original video
+        selected_model = st.sidebar.selectbox("Select a model", list(model_options.keys()), index=list(model_options.keys()).index(st.session_state.selected_model))
+        st.title(selected_model)
+
+    ##############################################################################################################
+
+        if selected_model != "No Model picked":
+            st.session_state.selected_model = selected_model  
+            
+            if selected_model == "Cat Detector":
+                with st.spinner(f'Loading {selected_model} model...'):
+                    url = 'https://drive.google.com/uc?id=116XNjsy9wMEDt76bxJ4q-G5DB5MIal1R'
+                    st.session_state.model = download_and_load(url)  
+            elif selected_model == "YOLO v8 X-Large":
+                with st.spinner(f'Loading {selected_model}...'):
+                    st.session_state.model = ultralytics.YOLO(model_options[selected_model])  
+
+
+            uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+            if uploaded_file is not None:
+                # Check the file format
+                #file_type = uploaded_file.type.split('/')[0]
+
+                #if file_type == 'image':
+                bytes_data = uploaded_file.getvalue()
+                image = Image.open(io.BytesIO(bytes_data))
+                processed_image = process_image(image, st.session_state['model'])
+                st.image(processed_image, caption='Detections', use_column_width=True)
+            
+                #elif file_type == 'video':
+                #    # Process video
+                #    process_and_track_video(uploaded_file, st.session_state['model'])
+                #    st.video(uploaded_file)  # Display the original video
 
 if __name__ == "__main__":
     main()
