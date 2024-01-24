@@ -43,3 +43,5 @@ psutil  # system utilization
 # roboflow
 
 gdown==5.0.0
+py-cpuinfo==9.0.0
+
