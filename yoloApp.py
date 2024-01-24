@@ -27,12 +27,8 @@ def process_image(image, model):
 
 
 def main():
-
-
-
-def main():
     
-    st.set_page_config(page_title="Interactive Interface for YOLOv8",
+    st.set_page_config(page_title="Interactive Interface for YOLOv8 (prototype)",
                        page_icon="🤖",
                        layout="wide")
 
