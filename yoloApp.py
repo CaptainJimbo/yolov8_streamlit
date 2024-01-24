@@ -37,6 +37,7 @@ def main():
         st.session_state.logged_in = False
 
     # User Login
+    
     if not st.session_state.logged_in:
         st.sidebar.title("Login")
         username_input = st.sidebar.text_input("Username")
@@ -90,9 +91,15 @@ def main():
                 #if file_type == 'image':
                 bytes_data = uploaded_file.getvalue()
                 image = Image.open(io.BytesIO(bytes_data))
-                processed_image = process_image(image, st.session_state['model'])
-                st.image(processed_image, caption='Detections', use_column_width=True)
-            
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.image(ImageOps.exif_transpose(image), caption='Image', use_column_width=True)
+                with col2:
+                    with st.spinner('drawing boxes 🤖🖊️'):
+                        processed_image = process_image(image, st.session_state['model'])
+                        st.image(processed_image, caption='Detections', use_column_width=True)
+                
+
                 #elif file_type == 'video':
                 #    # Process video
                 #    process_and_track_video(uploaded_file, st.session_state['model'])
