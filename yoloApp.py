@@ -1,5 +1,4 @@
 import streamlit as st
-import ultralytics
 from PIL import Image, ImageOps
 import io
 import os
@@ -8,7 +7,12 @@ import gdown
 #import tempfile  # for handling uploaded files
 #from collections import defaultdict
 #import numpy as np
+#import ultralytics
 
+
+st.title('Test')
+
+""" 
 # Define the model loading function outside main
 def download_and_load(url):
     trained_model = 'yolov8x_cats.pt'
@@ -83,3 +87,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+ """
